@@ -1,1 +1,1 @@
-from .student import student
+from .student import router as student

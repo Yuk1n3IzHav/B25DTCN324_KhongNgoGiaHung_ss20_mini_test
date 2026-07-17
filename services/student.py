@@ -15,9 +15,9 @@ def response(statusCode, message, data, error, path):
 
 
 def get_all_students(path: str, db: Session):
-    students = db.query(Student).options(joinedload(Classroom)).all()
+    students = db.query(Student).options(joinedload(Student.classroom)).all()
 
-    if students is None:
+    if not students:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Không có sinh viên trong hệ thống",
@@ -44,7 +44,12 @@ def create_student(student: StudentCreate, path: str, db: Session):
     if existed_student:
         raise HTTPException(status_code=400, detail={"Mã sinh viên đã tồn tại!"})
 
-    new_student = StudentCreate()
+    new_student = Student(
+        student_code=student.student_code,
+        full_name=student.full_name,
+        email=student.email,
+        class_id=student.class_id,
+    )
     db.add(new_student)
     db.commit()
     db.refresh(new_student)
