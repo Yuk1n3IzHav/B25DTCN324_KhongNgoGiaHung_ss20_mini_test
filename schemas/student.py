@@ -14,7 +14,7 @@ class StudentResponse(BaseModel):
     id: int
     student_code: str
     full_name: str
-    email: EmailStr
+    email: str
     classroom: ClassroomResponse
 
     class Config:
