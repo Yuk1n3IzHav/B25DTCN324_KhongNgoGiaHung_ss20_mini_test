@@ -1,0 +1,21 @@
+from pydantic import BaseModel, Field, EmailStr
+
+from schemas.classroom import ClassroomResponse
+
+
+class StudentCreate(BaseModel):
+    student_code: str = Field(..., min_length=3, max_length=20)
+    full_name: str = Field(..., min_length=2, max_length=50)
+    email: EmailStr
+    class_id: int = Field(..., ge=1)
+
+
+class StudentResponse(BaseModel):
+    id: int
+    student_code: str
+    full_name: str
+    email: EmailStr
+    classroom: ClassroomResponse
+
+    class Config:
+        from_attributes = True
